@@ -40,9 +40,10 @@ public class Database implements Serializable {
     }
 
     public static ArrayList<Product> query(String keyword){
+        keyword = keyword.toLowerCase();
         ArrayList<Product> output = new ArrayList<Product>();
         for(int i = 0; i < products.size(); i++){
-            if(products.get(i).getName().contains(keyword)){
+            if(products.get(i).getName().toLowerCase().contains(keyword)){
                 output.add(products.get(i));
             }
         }

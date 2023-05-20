@@ -69,14 +69,19 @@
                       <text value="Product name not found."/>
                     </properties>
                   </component>
-                  <component id="c9aa2" class="javax.swing.JTable" binding="locateTable">
+                  <scrollpane id="206eb">
                     <constraints>
-                      <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                        <preferred-size width="150" height="50"/>
-                      </grid>
+                      <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
-                  </component>
+                    <border type="none"/>
+                    <children>
+                      <component id="c9aa2" class="javax.swing.JTable" binding="locateTable">
+                        <constraints/>
+                        <properties/>
+                      </component>
+                    </children>
+                  </scrollpane>
                 </children>
               </grid>
             </children>

@@ -127,13 +127,15 @@ public class MainFrame extends JFrame {
                 String manufacturerAddress;
                 while (true) {
                     try {
-                        manufacturerAddress = JOptionPane.showInputDialog("Enter manufacturer address:");
+                        manufacturerAddress = JOptionPane.showInputDialog("Enter manufacturer state abbreviation OR country:");
                         break;
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Error: Bad input. Please input a valid string.");
                     }
                 }
                 Database.add(new Product(new Manufacturer(manufacturerName, manufacturerAddress), name, date, quantity, price));
+                updateInventoryTable();
+                updateDeletedTable();
             }
         });
         helpButton.addActionListener(new ActionListener() {
@@ -164,6 +166,8 @@ public class MainFrame extends JFrame {
                     Database.delete(Database.search(name));
                 }
                 else{JOptionPane.showMessageDialog(null, "Error: Product not found.");}
+                updateInventoryTable();
+                updateDeletedTable();
             }
         });
     }
