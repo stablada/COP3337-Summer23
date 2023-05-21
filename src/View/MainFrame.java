@@ -182,6 +182,7 @@ public class MainFrame extends JFrame {
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+                JOptionPane.showMessageDialog(null, "Database saved.");
             }
         });
     }

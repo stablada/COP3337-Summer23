@@ -50,8 +50,8 @@ public class Database implements Serializable {
 
         FileOutputStream os3 = new FileOutputStream("deleted.db");
         ObjectOutputStream os4 = new ObjectOutputStream(os3);
-        os2.writeObject(products);
-        os2.close();
+        os4.writeObject(deleted);
+        os4.close();
     }
     public static int search(String name){
         for(int i = 0; i < products.size(); i++){
