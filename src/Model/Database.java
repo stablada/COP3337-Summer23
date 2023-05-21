@@ -11,11 +11,18 @@ public class Database implements Serializable {
     //Deleted
     private static ArrayList<Product> deleted = new ArrayList<Product>();
 
-    public void init() throws IOException, ClassNotFoundException {
-        FileInputStream is1 = new FileInputStream("inventory.db");
-        ObjectInputStream is2 = new ObjectInputStream(is1);
-        products.add((Product) is2.readObject());
-        is2.close();
+    public static void init() throws IOException, ClassNotFoundException {
+        try {
+            File save = new File("inventory.db");
+            if (!save.createNewFile()) {
+                FileInputStream is1 = new FileInputStream("inventory.db");
+                ObjectInputStream is2 = new ObjectInputStream(is1);
+                products = (ArrayList<Product>) is2.readObject();
+                is2.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public static void add(Product product){
         products.add(product);
@@ -24,7 +31,7 @@ public class Database implements Serializable {
         deleted.add(products.get(index));
         products.remove(index);
     }
-    public void close() throws IOException {
+    public static void close() throws IOException {
         FileOutputStream os1 = new FileOutputStream("inventory.db");
         ObjectOutputStream os2 = new ObjectOutputStream(os1);
         os2.writeObject(products);

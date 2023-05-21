@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainFrame extends JFrame {
@@ -39,6 +40,8 @@ public class MainFrame extends JFrame {
         this.setSize(500, 500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+
+        updateInventoryTable();
 
         this.notFoundLB.setVisible(false);
 
@@ -168,6 +171,16 @@ public class MainFrame extends JFrame {
                 else{JOptionPane.showMessageDialog(null, "Error: Product not found.");}
                 updateInventoryTable();
                 updateDeletedTable();
+            }
+        });
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Database.close();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }

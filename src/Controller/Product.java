@@ -1,8 +1,8 @@
 package Controller;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class Product {
+public class Product implements Serializable {
     private Manufacturer manufacturer;
     private String name;
     private String date;
