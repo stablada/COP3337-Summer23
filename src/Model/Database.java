@@ -23,6 +23,17 @@ public class Database implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        try {
+            File save = new File("deleted.db");
+            if (!save.createNewFile()) {
+                FileInputStream is1 = new FileInputStream("deleted.db");
+                ObjectInputStream is2 = new ObjectInputStream(is1);
+                deleted = (ArrayList<Product>) is2.readObject();
+                is2.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public static void add(Product product){
         products.add(product);
@@ -34,6 +45,11 @@ public class Database implements Serializable {
     public static void close() throws IOException {
         FileOutputStream os1 = new FileOutputStream("inventory.db");
         ObjectOutputStream os2 = new ObjectOutputStream(os1);
+        os2.writeObject(products);
+        os2.close();
+
+        FileOutputStream os3 = new FileOutputStream("deleted.db");
+        ObjectOutputStream os4 = new ObjectOutputStream(os3);
         os2.writeObject(products);
         os2.close();
     }

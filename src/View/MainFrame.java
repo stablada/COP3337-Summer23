@@ -42,6 +42,7 @@ public class MainFrame extends JFrame {
         this.setVisible(true);
 
         updateInventoryTable();
+        updateDeletedTable();
 
         this.notFoundLB.setVisible(false);
 
