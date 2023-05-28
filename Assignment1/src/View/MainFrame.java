@@ -150,7 +150,7 @@ public class MainFrame extends JFrame {
                 +"\nTo add a product, click the \"Add\" button. You will be prompted to enter the product's name, quantity, price, date purchased, manufacturer name, and manufacturer address."
                 +"\nTo delete a product, click the \"Delete\" button. You will be prompted to enter the product's name."
                 +"\nTo save the database, click the \"Save\" button."
-                +"\nThis Program was made by Sebastian Tablada, PID:6326595. Feel free to contact me at stablada67@gmail.com or send me a message through canvas for any inquiries or concerns."
+                +"\nThis Program was made by Sebastian Tablada, PID:6326595 and Victor Navarro Casal, PID:6252933."
                 +"\nThank you for using the ABC Enterprise Inventory Management System!");
             }
         });
