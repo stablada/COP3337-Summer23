@@ -1,7 +1,7 @@
 import javax.swing.JOptionPane;
 public class TestEncryption
 {
-    public static void main(String arg[])
+    public static void main(String[] args)
     {
         String code, output = "";
         String text = JOptionPane.showInputDialog("Enter message");
