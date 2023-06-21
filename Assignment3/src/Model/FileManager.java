@@ -83,7 +83,7 @@ public class FileManager {
     public static ArrayList<File> queryNameFiles(String query) {
         ArrayList<File> queryFiles = new ArrayList<>();
         for (File file : files) {
-            if (file.getName().contains(query)) {
+            if (file.getName().toLowerCase().contains(query.toLowerCase())) {
                 queryFiles.add(file);
             }
         }

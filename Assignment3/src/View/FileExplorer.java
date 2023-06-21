@@ -146,6 +146,19 @@ public class FileExplorer extends JFrame {
                 populateTable(path);
             }
         });
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<File> files = Model.FileManager.queryNameFiles(searchTextField.getText());
+
+                StringBuilder out = new StringBuilder("Found " + files.size() + " files containing the name '" + searchTextField.getText() + "'.");
+                for(File file : files){
+                    out.append("\n").append(file.getName()).append(" at ").append(file.getPath());
+                }
+
+                JOptionPane.showMessageDialog(null, out.toString());
+            }
+        });
     }
 
     public void populateTable(String path) {
