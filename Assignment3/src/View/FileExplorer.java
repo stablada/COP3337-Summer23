@@ -88,7 +88,7 @@ public class FileExplorer extends JFrame {
                         FileEditor fileEditor = new FileEditor(FileTable.getValueAt(FileTable.getSelectedRow(), 0).toString(), pathTextField.getText() + "\\" + FileTable.getValueAt(FileTable.getSelectedRow(), 0).toString());
                         break;
                     case "image/png":
-                        //FileManager.openImage(path)
+                        ImgEditor imgEditor = new ImgEditor(pathTextField.getText() + "\\" + FileTable.getValueAt(FileTable.getSelectedRow(), 0).toString());
                         break;
                 }
             }
