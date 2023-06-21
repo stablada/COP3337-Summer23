@@ -83,10 +83,11 @@ public class FileExplorer extends JFrame {
                     case "directory":
                         populateTable(pathTextField.getText() + "\\" + FileTable.getValueAt(FileTable.getSelectedRow(), 0).toString());
                         break;
-                    case "text":
-                        //FileManager.openText(path)
+                    case "text/plain":
+                        JOptionPane.showMessageDialog(null, "Warning! \nDon't forget to click save before you close the window! \nFailure to do this will result in data loss!");
+                        FileEditor fileEditor = new FileEditor(FileTable.getValueAt(FileTable.getSelectedRow(), 0).toString(), pathTextField.getText() + "\\" + FileTable.getValueAt(FileTable.getSelectedRow(), 0).toString());
                         break;
-                    case "image":
+                    case "image/png":
                         //FileManager.openImage(path)
                         break;
                 }
