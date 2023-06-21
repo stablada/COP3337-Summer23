@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class FileExplorer extends JFrame {
@@ -40,49 +41,81 @@ public class FileExplorer extends JFrame {
 
         //Initialize the table upon program start
         //Change Ass3 to .\\files
-        try {
-            populateTable(".\\Assignment3\\Files\\root");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        populateTable(".\\Assignment3\\Files\\root");
 
 
         //--------------------Button Action Listeners--------------------
         newButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Open JOP NewFile
-                //Options: Text, Image, Folder
-                //JOP: create New or Import
-                //If New
-                //FileManager.newText / FileManager.newImage / FileManager.newFolder
-                //If import
-                //FileManager.importFile
+                Object[] fileType = {"Text", "Image", "Directory"};
 
-                //loadTreeContent();
+                int n = JOptionPane.showOptionDialog(null,
+                        "Which file type would you like to add?",
+                        "Add file",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        fileType,
+                        fileType[0]);
+
+                String name = JOptionPane.showInputDialog("Enter the name of the file: ");
+                String path = pathTextField.getText();
+
+                switch (n) {
+                    case 0:
+                        Model.FileManager.newText(name, path);
+                        break;
+                    case 1:
+                        Model.FileManager.newImg(name, path);
+                        break;
+                    case 2:
+                        Model.FileManager.newFolder(name, path);
+                        break;
+                }
+                populateTable(path);
             }
         });
         openButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Switch: File or Folder
-                //File: if txt open FileEditor
-                //      if img open ImageShowcase
-                //Folder: Populate Table with new data
+                switch (FileTable.getValueAt(FileTable.getSelectedRow(), 1).toString()) {
+                    case "directory":
+                        populateTable(pathTextField.getText() + "\\" + FileTable.getValueAt(FileTable.getSelectedRow(), 0).toString());
+                        break;
+                    case "text":
+                        //FileManager.openText(path)
+                        break;
+                    case "image":
+                        //FileManager.openImage(path)
+                        break;
+                }
             }
         });
         copyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //JOP: Copy where? (input path)
+                String path = JOptionPane.showInputDialog("Enter the path to copy to: \nRemember .\\Files\\root is the root directory. \n[Do not include filename] \n\nExample: .\\Files\\root\\testAssets");
+                try {
+                    File file = new File(path + "\\" + FileTable.getValueAt(FileTable.getSelectedRow(), 0).toString());
+                    Files.copy(new File(pathTextField.getText() + "\\" + FileTable.getValueAt(FileTable.getSelectedRow(), 0).toString()).toPath(), new File(path + "\\" + FileTable.getValueAt(FileTable.getSelectedRow(), 0).toString()).toPath());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //JOP: Are you sure?
-                //if yes
-                //FileManager.deleteFile(path)
+                JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + FileTable.getValueAt(FileTable.getSelectedRow(), 0).toString(), "Delete File", JOptionPane.YES_NO_OPTION);
+                if(JOptionPane.YES_OPTION == 0) {
+                    try {
+                        Files.delete(new File(pathTextField.getText() + "\\" + FileTable.getValueAt(FileTable.getSelectedRow(), 0).toString()).toPath());
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    populateTable(pathTextField.getText());
+                }
             }
         });
         propertiesButton.addActionListener(new ActionListener() {
@@ -103,10 +136,22 @@ public class FileExplorer extends JFrame {
                 //JOP: Import what and where? (input file and path) [copies file from path to path]
             }
         });
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String path = pathTextField.getText();
+                if(path.contains("\\")) {
+                    path = path.substring(0, path.lastIndexOf("\\"));
+                }
+                populateTable(path);
+            }
+        });
     }
 
-    public void populateTable(String path) throws IOException {
+    public void populateTable(String path) {
         ArrayList<File> files = Model.FileManager.queryPathFiles(path);
+
+        pathTextField.setText(path);
 
         String[] names = new String[files.size()];
         String[] types = new String[files.size()];
@@ -115,11 +160,19 @@ public class FileExplorer extends JFrame {
 
         for (int i = 0; i < files.size(); i++) {
             names[i] = files.get(i).getName();
-            sizes[i] = files.get(i).getTotalSpace() + " Bytes";
-            if(Files.probeContentType(files.get(i).toPath()) == null) {
-                types[i] = "directory";
-            } else {
-                types[i] = Files.probeContentType(files.get(i).toPath());
+            try {
+                if(Files.probeContentType(files.get(i).toPath()) == null) {
+                    types[i] = "directory";
+                } else {
+                    types[i] = Files.probeContentType(files.get(i).toPath());
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                sizes[i] = Files.size(Path.of(files.get(i).getPath())) + " Bytes";
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
         for(int i = 0; i < files.size(); i++) {

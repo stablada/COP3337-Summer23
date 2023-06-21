@@ -1,6 +1,8 @@
 package Model;
 
+import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -13,6 +15,7 @@ public class FileManager {
     public FileManager() {
         directorySearch(rootDir);
     }
+
     public void directorySearch(File directory) {
         File[] dirContent = directory.listFiles();
         for (File file : dirContent) {
@@ -27,14 +30,37 @@ public class FileManager {
         //if exists import
         //else jop error
     }
-    public void newText(String path, String name) {
-        //Open stream and create new text file
+    public static void newText(String name, String path) {
+        File newFile = new File(path + "\\" + name + ".txt");
+        try {
+            if (newFile.createNewFile()) {
+                JOptionPane.showMessageDialog(null, "Text File " + name + " created successfully at " + path + ".");
+            } else {
+                JOptionPane.showMessageDialog(null, "Error: \nText File " + name + " already exists.");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-    public void newImg(String path, String name) {
-        //Open stream and create new image file
+    public static void newImg(String name, String path) {
+        File newImg = new File(path + "\\" + name + ".png");
+        try {
+            if (newImg.createNewFile()) {
+                JOptionPane.showMessageDialog(null, "Image File " + name + " created successfully at " + path + ".");
+            } else {
+                JOptionPane.showMessageDialog(null, "Error: \nImage File " + name + " already exists.");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-    public void newFolder(String path, String name) {
-        //Open stream and create new folder directory
+    public static void newFolder(String name, String path) {
+        File newDir = new File(path + "\\" + name);
+        if (newDir.mkdir()) {
+            JOptionPane.showMessageDialog(null, "Directory " + name + " created successfully at " + path + ".");
+        } else {
+            JOptionPane.showMessageDialog(null, "Error: \nDirectory " + name + " already exists.");
+        }
     }
 
     public ArrayList<File> getFiles() {
