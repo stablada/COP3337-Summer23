@@ -1,0 +1,3 @@
+Hello there! This is a test file used to show the use of this file system.
+As you can see, this file is editable using this text editor, and has the ability to be saved.
+The lines feature at the bottom shows the lines, and any text is searchable on top. Thank you for visiting this program.

@@ -1,11 +1,7 @@
 package View;
 
-import Model.FileManager;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -20,7 +16,7 @@ public class FileExplorer extends JFrame {
     private JButton deleteButton;
     private JButton copyButton;
     private JButton propertiesButton;
-    private JButton quickWriteButton;
+    private JButton helpButton;
     private JButton newButton;
     private JButton importFileButton;
     private JTextField pathTextField;
@@ -28,8 +24,9 @@ public class FileExplorer extends JFrame {
     private JTable FileTable;
     private JButton searchButton;
     private JTextField searchTextField;
+    public static String basePath;
 
-    private String[] columnNames = {"Name", "Type", "Size"};
+    private static String[] columnNames = {"Name", "Type", "Size"};
 
     public FileExplorer() {
         this.setContentPane(mainPanel);
@@ -122,19 +119,40 @@ public class FileExplorer extends JFrame {
         propertiesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //JOP: File Properties (all basicFile attributes)
+                Properties properties = new Properties(
+                        /*name*/ FileTable.getValueAt(FileTable.getSelectedRow(), 0).toString(),
+                        /*path*/ pathTextField.getText() + "\\" + FileTable.getValueAt(FileTable.getSelectedRow(), 0).toString(),
+                        /*type*/ FileTable.getValueAt(FileTable.getSelectedRow(), 1).toString(),
+                        /*size*/ FileTable.getValueAt(FileTable.getSelectedRow(), 2).toString(),
+                        /*basePath*/basePath = pathTextField.getText()
+                );
             }
         });
-        quickWriteButton.addActionListener(new ActionListener() {
+        helpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //open QuickWrite
+                JOptionPane.showMessageDialog(null, "Welcome to File Explorer!" +
+                        "\n\nTo get started, click on a file or folder and then press OPEN to enter." +
+                        "\nTo go back to the previous directory, click the back button." +
+                        "\nTo create a new file, click the new button and follow the dialogue box instructions." +
+                        "\nTo view the properties of a file, click the properties button." +
+                        "\nTo edit the attributes of an existing file, click the properties button and edit the text fields." +
+                        "\n\nThank you for using File Explorer!");
             }
         });
         importFileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //JOP: Import what and where? (input file and path) [copies file from path to path]
+                String path = JOptionPane.showInputDialog("Enter the path to import from: \nRemember .\\Files\\root is the root directory. \n[Include filename] \n\nExample: .\\Files\\root\\testAssets\\test.txt");
+                File file = new File(path);
+                try {
+                    Files.copy(file.toPath(), new File(pathTextField.getText() + "\\" + file.getName()).toPath());
+                    JOptionPane.showMessageDialog(null, "File imported successfully!");
+                } catch (IOException e1) {
+                    JOptionPane.showMessageDialog(null, "File import failed!");
+                    e1.printStackTrace();
+                }
+                populateTable(pathTextField.getText());
             }
         });
         backButton.addActionListener(new ActionListener() {
