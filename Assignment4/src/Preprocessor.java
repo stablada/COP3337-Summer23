@@ -38,7 +38,7 @@ public class Preprocessor {
         return stack.isEmpty();
     }
     public boolean checkSyntax(){
-        return true;
+        return false;
         //check the syntax by comparing to format
     }
 }
