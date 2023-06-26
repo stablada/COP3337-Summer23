@@ -8,7 +8,7 @@ public class ProcessorUI extends JFrame {
     private JButton checkButton;
     private JPanel contentPane;
     private JLabel fileNameLabel;
-    private JFileChooser fileChooser;
+    private JFileChooser fileChooser = new JFileChooser();
     private File file;
 
     ProcessorUI(){

@@ -12,6 +12,7 @@ public class Preprocessor {
         try {
             input = Files.readString(Paths.get(file.getAbsolutePath()));
         } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error reading file.");
             throw new RuntimeException(e);
         }
 
