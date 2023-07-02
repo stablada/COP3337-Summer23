@@ -38,6 +38,23 @@ public class ProcessorUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Preprocessor preprocessor = new Preprocessor(file);
+                String returnMessage = "";
+                if(preprocessor.checkDelimiters() && preprocessor.checkSyntax()){
+                    returnMessage += "Test passed.\n";
+                } else {
+                    returnMessage += "Test failed.\n";
+                }
+                if(preprocessor.checkDelimiters()){
+                    returnMessage += "Delimiters test passed.\n";
+                } else {
+                    returnMessage += "Delimiters test failed.\n";
+                }
+                if (preprocessor.checkSyntax()){
+                    returnMessage += "Syntax test passed.";
+                } else {
+                    returnMessage += "Syntax test failed.";
+                }
+                JOptionPane.showMessageDialog(null, returnMessage);
             }
         });
     }
