@@ -23,7 +23,6 @@ public class MainFrame extends JFrame {
     private JButton saveButton;
     private JButton deleteButton;
     private JTable deletedTable;
-    private JPanel locatePanel;
     private JPanel inventoryPanel;
     private JPanel deletedPanel;
     private JLabel notFoundLB;
